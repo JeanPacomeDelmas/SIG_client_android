@@ -33,8 +33,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     public int BARCODE_READER_ACTIVITY_REQUEST = 1;
+    public int ADD_QR_CODE_ACTIVITY_REQUEST= 2;
+    public String OPENLAYERS_URL = "http://192.168.1.38:1234";
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,19 +47,25 @@ public class MainActivity extends AppCompatActivity {
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
         webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
-        webView.loadUrl("http://192.168.1.38:1234");
-
+        webView.loadUrl(OPENLAYERS_URL);
     }
 
     public void refreshLayer(String barCode) {
         WebView wv = (WebView) findViewById(R.id.webview);
-        wv.loadUrl("http://192.168.1.38:1234/" + barCode);
+        wv.loadUrl(OPENLAYERS_URL + barCode);
     }
 
     public void buttonQRcode(View v) {
         Intent launchIntent = BarcodeReaderActivity.getLaunchIntent(this, true, false);
         startActivityForResult(launchIntent, BARCODE_READER_ACTIVITY_REQUEST);
     }
+
+
+    public void addQRCode(View v) {
+        Intent launchIntent = BarcodeReaderActivity.getLaunchIntent(this, true, false);
+        startActivityForResult(launchIntent, ADD_QR_CODE_ACTIVITY_REQUEST);
+    }
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -80,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
             refreshLayer(barcode.rawValue);
             Toast.makeText(this, barcode.rawValue, Toast.LENGTH_SHORT).show();
         }
-
     }
+
       /*
     public void httpRequestQrCode(String barCode) throws UnsupportedEncodingException {
         // Defined URL  where to send data
