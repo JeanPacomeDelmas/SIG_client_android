@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     public int BARCODE_READER_ACTIVITY_REQUEST = 1;
     public int ADD_QR_CODE_ACTIVITY_REQUEST= 2;
-    public String OPENLAYERS_URL = "http://192.168.1.38:1234";
+    public String OPENLAYERS_URL = "http://192.168.1.38:1234/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
