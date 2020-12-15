@@ -20,6 +20,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -29,19 +30,25 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
+public class OpenLayersActivity extends AppCompatActivity {
 
-    public int BARCODE_READER_ACTIVITY_REQUEST = 1;
-    public int ADD_QR_CODE_ACTIVITY_REQUEST= 2;
-    public String OPENLAYERS_URL = "http://192.168.1.38:1234/";
+    private final int BARCODE_READER_ACTIVITY_REQUEST = 1;
+    private final String OPENLAYERS_URL = "http://192.168.1.38:1234/";
+    private final String SPRINGSERV_URL = "http://192.168.1.38:8081/api/";
+
+    private String userLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        userLogin = getIntent().getStringExtra("login");
+
         setContentView(R.layout.activity_main);
 
+        // Initialisation de la web view qui contient le js d'Openlayers
         WebView webView = (WebView) findViewById(R.id.webview);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
@@ -60,9 +67,9 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(launchIntent, BARCODE_READER_ACTIVITY_REQUEST);
     }
 
-
     public void addQRCode(View v) {
         Intent launchIntent = BarcodeReaderActivity.getLaunchIntent(this, true, false);
+        int ADD_QR_CODE_ACTIVITY_REQUEST = 2;
         startActivityForResult(launchIntent, ADD_QR_CODE_ACTIVITY_REQUEST);
     }
 
@@ -78,59 +85,27 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == BARCODE_READER_ACTIVITY_REQUEST && data != null) {
             Barcode barcode = data.getParcelableExtra(BarcodeReaderActivity.KEY_CAPTURED_BARCODE);
 
-
-//            try {
-//                httpRequestQrCode(barcode.rawValue);
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            }
             refreshLayer(barcode.rawValue);
             Toast.makeText(this, barcode.rawValue, Toast.LENGTH_SHORT).show();
         }
     }
 
-      /*
-    public void httpRequestQrCode(String barCode) throws UnsupportedEncodingException {
-        // Defined URL  where to send data
 
-        URL url = new URL("http://192.168.1.38:1234;
-
-        String text = "";
-        BufferedReader reader=null;
-        // Send data
-        try
-        {
-            // Send POST data request
-            URLConnection conn = url.openConnection();
-
-            // Get the server response
-            reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            StringBuilder sb = new StringBuilder();
-            String line = null;
-
-            // Read Server Response
-            while((line = reader.readLine()) != null)
-            {
-                // Append server response in string
-                sb.append(line + "\n");
-            }
-
-            text = sb.toString();
-        }
-        catch(Exception ex)
-        {
-
-        }
-        finally
-        {
-            try
-            {
-                reader.close();
-            }
-            catch(Exception ex) {}
-        }
-
-        refreshLayer();
-    }
-*/
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
