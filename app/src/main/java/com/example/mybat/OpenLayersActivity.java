@@ -1,40 +1,21 @@
 package com.example.mybat;
 
 import android.app.Activity;
-import android.app.DownloadManager;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.vision.barcode.Barcode;
 import com.notbytes.barcode_reader.BarcodeReaderActivity;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-
 public class OpenLayersActivity extends AppCompatActivity {
 
     private final int BARCODE_READER_ACTIVITY_REQUEST = 1;
+    private final int ADD_QR_CODE_ACTIVITY_REQUEST = 2;
     private final String OPENLAYERS_URL = "http://192.168.1.38:1234/";
     private final String SPRINGSERV_URL = "http://192.168.1.38:8081/api/";
 
@@ -57,10 +38,6 @@ public class OpenLayersActivity extends AppCompatActivity {
         webView.loadUrl(OPENLAYERS_URL);
     }
 
-    public void refreshLayer(String barCode) {
-        WebView wv = (WebView) findViewById(R.id.webview);
-        wv.loadUrl(OPENLAYERS_URL + barCode);
-    }
 
     public void buttonQRcode(View v) {
         Intent launchIntent = BarcodeReaderActivity.getLaunchIntent(this, true, false);
@@ -69,10 +46,8 @@ public class OpenLayersActivity extends AppCompatActivity {
 
     public void addQRCode(View v) {
         Intent launchIntent = BarcodeReaderActivity.getLaunchIntent(this, true, false);
-        int ADD_QR_CODE_ACTIVITY_REQUEST = 2;
         startActivityForResult(launchIntent, ADD_QR_CODE_ACTIVITY_REQUEST);
     }
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -84,10 +59,19 @@ public class OpenLayersActivity extends AppCompatActivity {
 
         if (requestCode == BARCODE_READER_ACTIVITY_REQUEST && data != null) {
             Barcode barcode = data.getParcelableExtra(BarcodeReaderActivity.KEY_CAPTURED_BARCODE);
-
-            refreshLayer(barcode.rawValue);
+            WebView webView = (WebView) findViewById(R.id.webview);
+            webView.loadUrl(OPENLAYERS_URL + barcode.rawValue);
             Toast.makeText(this, barcode.rawValue, Toast.LENGTH_SHORT).show();
         }
+
+        if (requestCode == ADD_QR_CODE_ACTIVITY_REQUEST && data != null) {
+            Barcode barcode = data.getParcelableExtra(BarcodeReaderActivity.KEY_CAPTURED_BARCODE);
+            WebView webView = (WebView) findViewById(R.id.webview);
+            String dirBuilder = "addqrc/" + barcode.rawValue;
+            webView.loadUrl(OPENLAYERS_URL  + dirBuilder);
+            Toast.makeText(this, barcode.rawValue, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 

@@ -3,4 +3,8 @@
     <string name="navigation_photo">Photo</string>
     <string name="addqrcode">Ajouter un QR code</string>
     <string name="title_login_activity">Login</string>
+    <string name="se_connecter">Se connecter</string>
+    <string name="login">Login</string>
+    <string name="inscription">Inscription</string>
+    <string name="ib1">p1</string>
 </resources>
