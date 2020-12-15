@@ -31,7 +31,8 @@
                 android:layout_height="400dp"
                 android:src="@drawable/baseline_camera_alt_black_24dp"
                 android:onClick="buttonQRcode"
-                />
+                tools:ignore="NestedWeights"
+                android:contentDescription="@string/ib1" />
 
             <Button
                 android:id="@+id/b2"
@@ -39,8 +40,7 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="400dp"
-                android:onClick="buttonQRcode"
-                android:src="@drawable/baseline_camera_alt_black_24dp"
+                android:onClick="addQRCode"
                 app:layout_constraintRight_toLeftOf="@+id/two"/>
         </LinearLayout>
     </LinearLayout>
