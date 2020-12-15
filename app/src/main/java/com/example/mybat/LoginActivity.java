@@ -21,10 +21,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private final String SPRINGSERV_URL = "http://192.168.1.38:8081/api/utilisateur/";
     private String userLogin;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.login);
     }
 
@@ -38,7 +38,10 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+
     private class MyTask extends AsyncTask<Void, Void, Void> {
+
+        String result;
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -99,6 +102,8 @@ public class LoginActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+
             return null;
         }
         @Override
@@ -106,4 +111,5 @@ public class LoginActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
         }
     }
+
 }

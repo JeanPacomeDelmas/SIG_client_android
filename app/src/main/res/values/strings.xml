@@ -2,4 +2,5 @@
     <string name="app_name">SIG_CLIENT</string>
     <string name="navigation_photo">Photo</string>
     <string name="addqrcode">Ajouter un QR code</string>
+    <string name="title_login_activity">Login</string>
 </resources>
