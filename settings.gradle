@@ -1,0 +1,4 @@
+include ':barcode-reader'
+include ':app'
+project(':barcode-reader').projectDir = new File(rootDir, 'Barcode-Reader-master/barcode-reader/')
+rootProject.name = "MyBat"
