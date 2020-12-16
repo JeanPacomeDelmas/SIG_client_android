@@ -27,7 +27,7 @@ public class OpenLayersActivity extends AppCompatActivity {
 
         userLogin = getIntent().getStringExtra("login");
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_openlayers);
 
         // Initialisation de la web view qui contient le js d'Openlayers
         WebView webView = (WebView) findViewById(R.id.webview);
@@ -37,7 +37,6 @@ public class OpenLayersActivity extends AppCompatActivity {
         webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
         webView.loadUrl(OPENLAYERS_URL);
     }
-
 
     public void buttonQRcode(View v) {
         Intent launchIntent = BarcodeReaderActivity.getLaunchIntent(this, true, false);
@@ -60,16 +59,17 @@ public class OpenLayersActivity extends AppCompatActivity {
         if (requestCode == BARCODE_READER_ACTIVITY_REQUEST && data != null) {
             Barcode barcode = data.getParcelableExtra(BarcodeReaderActivity.KEY_CAPTURED_BARCODE);
             WebView webView = (WebView) findViewById(R.id.webview);
-            webView.loadUrl(OPENLAYERS_URL + barcode.rawValue);
-            Toast.makeText(this, barcode.rawValue, Toast.LENGTH_SHORT).show();
+            String dirBuilder = OPENLAYERS_URL + this.userLogin + "/" + barcode.rawValue;
+            webView.loadUrl(dirBuilder);
+            Toast.makeText(this, dirBuilder, Toast.LENGTH_SHORT).show();
         }
 
         if (requestCode == ADD_QR_CODE_ACTIVITY_REQUEST && data != null) {
             Barcode barcode = data.getParcelableExtra(BarcodeReaderActivity.KEY_CAPTURED_BARCODE);
             WebView webView = (WebView) findViewById(R.id.webview);
-            String dirBuilder = "addqrc/" + barcode.rawValue;
-            webView.loadUrl(OPENLAYERS_URL  + dirBuilder);
-            Toast.makeText(this, barcode.rawValue, Toast.LENGTH_SHORT).show();
+            String dirBuilder = OPENLAYERS_URL + "addqrc/" + this.userLogin + "/" +  barcode.rawValue;
+            webView.loadUrl(dirBuilder);
+            Toast.makeText(this, dirBuilder, Toast.LENGTH_SHORT).show();
         }
 
     }
